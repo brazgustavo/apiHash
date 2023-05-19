@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        input[type="text"] {
+            padding: 6px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Usuários</h1>
+    <input type="text" id="search" placeholder="Pesquisar...">
+    <table border="1" id="alunos-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Valor</th>
+                <th>Forma de Pagamento</th>
+                <th>Parcelas</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for aluno in alunos %}
+            <tr>
+                <td>{{ aluno['id'] }}</td>
+                <td>{{ aluno['nome'] }}</td>
+                <td>{{ aluno['email'] }}</td>
+                <td>{{ aluno['valor'] }}</td>
+                <td>{{ aluno['forma_pagamento'] }}</td>
+                <td>{{ aluno['parcelas'] }}</td>
+                <td>{{ aluno['status'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#search').on('keyup', function() {
+            var value = $(this).val().toLowerCase();
+            $('#alunos-table tbody tr').filter(function() {
+                var row = $(this).find('td');
+                var showRow = false;
+                for (var i = 0; i < row.length; i++) {
+                    if (row.eq(i).text().toLowerCase().indexOf(value) > -1) {
+                        showRow = true;
+                        break;
+                    }
+                }
+                $(this).toggle(showRow);
+            });
+        });
+    });
+</script>
+{% endblock %}
