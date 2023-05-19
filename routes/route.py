@@ -70,7 +70,7 @@ def add_cliente():
 
 @aluno_bp.route('/aluno')
 def aluno():
-    response = requests.get('http://localhost:5000/cliente')
+    response = requests.get('https://apihashtagtreinamentos.herokuapp.com/cliente')
     alunos = response.json()
     return render_template('usuarios.html', alunos=alunos)
 
