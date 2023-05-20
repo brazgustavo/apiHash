@@ -41,7 +41,7 @@ def get_exemplo():
 def get_cliente_by_id(id):
     cliente = Cliente.query.get(id)
     if not cliente:
-        return jsonify({'message': 'Exemplo não encontrado'})
+        return jsonify({'message': 'Cliente não encontrado'})
     data = {}
     data['id'] = cliente.id
     data['nome'] = cliente.nome
@@ -64,13 +64,18 @@ def add_cliente():
     cliente = Cliente(nome, email, status, valor, forma_pagamento, parcelas)
     db.session.add(cliente)
     db.session.commit()
-    print(f'Liberar Acesso do email: {cliente.email}')
-    return jsonify({'message': 'Exemplo adicionado com sucesso'})
+    if status =='aprovado':
+        print(f'Liberar Acesso do email: {cliente.email}')
+    elif status =='recusado':
+        print(f'Pagamento recusado!')
+    elif status =='reembolsado':
+        print(f'Retirando o acesso aos cursos!')
+    return jsonify({'message': 'Cliente adicionado com sucesso'})
 
 
 @aluno_bp.route('/aluno')
 def aluno():
-    response = requests.get('https://apihashtagtreinamentos.herokuapp.com/cliente')
+    response = requests.get('http://localhost:5000/cliente')
     alunos = response.json()
     return render_template('usuarios.html', alunos=alunos)
 
@@ -83,7 +88,7 @@ def login():
         usuario = Usuario.query.filter_by(email=form_login.email.data).first()
         if usuario is not None and str(usuario.senha) == str(form_login.senha.data):
             Usuario.is_active = True
-            flash(f'Login feito com sucesso no e-mail: {form_login.email.data}', 'alert-success')
+            #flash(f'Login feito com sucesso no e-mail: {form_login.email.data}', 'alert-success')
             par_next = request.args.get('next')
             if par_next:
                 return redirect(par_next)
