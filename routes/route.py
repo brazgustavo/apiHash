@@ -75,7 +75,7 @@ def add_cliente():
 
 @aluno_bp.route('/aluno')
 def aluno():
-    response = requests.get('http://localhost:5000/cliente')
+    response = requests.get('postgresql://ptqcufynekqnis:e6be8555f05656726f626cce0e87afe37ba8e5f9d5d399ec2e678eeec538f760@ec2-54-234-13-16.compute-1.amazonaws.com:5432/d2p2bohhvlddfq')
     alunos = response.json()
     return render_template('usuarios.html', alunos=alunos)
 
