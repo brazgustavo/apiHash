@@ -8,11 +8,11 @@
         </li>
       </ul>
       <ul class="d-flex navbar-nav">
-
+        {% if request.url_rule.rule == '/aluno' %}
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('sair') }}">Sair</a>
             </li>
-
+        {% endif %}
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('login') }}">Login</a>
           </li>
