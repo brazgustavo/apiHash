@@ -73,6 +73,15 @@ def add_cliente():
         print(f'Retirando o acesso aos cursos!')
     return jsonify({'message': 'Cliente adicionado com sucesso'})
 
+@cliente_bp.route('/cliente/<id>', methods=['DELETE'])
+def delete_exemplo(id):
+    cliente = Cliente.query.get(id)
+    if not cliente:
+        return jsonify({'message': 'Cliente não encontrado'})
+    db.session.delete(cliente)
+    db.session.commit()
+    return jsonify({'message': 'Cliente deletado com sucesso'})
+
 
 @aluno_bp.route('/aluno')
 def aluno():
