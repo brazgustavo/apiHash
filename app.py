@@ -4,7 +4,7 @@ from routes.route import cliente_bp,aluno_bp,login_bp
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://ptqcufynekqnis:e6be8555f05656726f626cce0e87afe37ba8e5f9d5d399ec2e678eeec538f760@ec2-54-234-13-16.compute-1.amazonaws.com:5432/d2p2bohhvlddfq'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres://ptqcufynekqnis:e6be8555f05656726f626cce0e87afe37ba8e5f9d5d399ec2e678eeec538f760@ec2-54-234-13-16.compute-1.amazonaws.com:5432/d2p2bohhvlddfq'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = '29cecf8afd6176f06bb3f55472d490d1'
 
