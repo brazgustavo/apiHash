@@ -3,6 +3,7 @@ from flask import Blueprint, jsonify, request, render_template, flash, url_for
 from flask_login import login_required, logout_user, login_user, LoginManager
 from werkzeug.utils import redirect
 from flask_bcrypt import Bcrypt
+import psycopg2
 
 
 bcrypt = Bcrypt()
@@ -75,7 +76,7 @@ def add_cliente():
 
 @aluno_bp.route('/aluno')
 def aluno():
-    response = requests.get('postgresql://ptqcufynekqnis:e6be8555f05656726f626cce0e87afe37ba8e5f9d5d399ec2e678eeec538f760@ec2-54-234-13-16.compute-1.amazonaws.com:5432/d2p2bohhvlddfq')
+    response = requests.get('https://apihashtagtreinamentos.herokuapp.com/cliente')
     alunos = response.json()
     return render_template('usuarios.html', alunos=alunos)
 
