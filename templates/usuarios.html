@@ -42,6 +42,7 @@
                 <th>Forma de Pagamento</th>
                 <th>Parcelas</th>
                 <th>Status</th>
+                <th>Ação</th>
             </tr>
         </thead>
         <tbody>
@@ -54,6 +55,17 @@
                 <td>{{ aluno['forma_pagamento'] }}</td>
                 <td>{{ aluno['parcelas'] }}</td>
                 <td>{{ aluno['status'] }}</td>
+                <td>
+                    {% if aluno['status'] == 'aprovado' %}
+                        Acesso Liberado!
+                    {% elif aluno['status'] == 'recusado' %}
+                        Pagamento recusado
+                    {% elif aluno['status'] == 'reembolsado' %}
+                        Retirando acesso aos cursos
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
             </tr>
             {% endfor %}
         </tbody>
