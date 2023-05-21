@@ -55,31 +55,37 @@ def get_cliente_by_id(id):
 
 @cliente_bp.route('/cliente', methods=['POST'])
 def add_cliente():
-    content_type = request.headers.get('Content-Type')
-    if content_type == 'application/json':
-        nome = request.json['nome']
-        email = request.json['email']
-        status = request.json['status']
-        valor = request.json['valor']
-        forma_pagamento = request.json['forma_pagamento']
-        parcelas = request.json['parcelas']
+    if request.is_json:
+        # Processar dados JSON
+        nome = request.json.get('nome')
+        email = request.json.get('email')
+        status = request.json.get('status')
+        valor = request.json.get('valor')
+        forma_pagamento = request.json.get('forma_pagamento')
+        parcelas = request.json.get('parcelas')
     else:
-        data = request.data.decode('utf-8')
-        nome, email, status, valor, forma_pagamento, parcelas = data.split(',')
+        # Processar dados de texto/bytes
+        nome = request.form.get('nome')
+        email = request.form.get('email')
+        status = request.form.get('status')
+        valor = request.form.get('valor')
+        forma_pagamento = request.form.get('forma_pagamento')
+        parcelas = request.form.get('parcelas')
 
     cliente = Cliente(nome, email, status, valor, forma_pagamento, parcelas)
 
     db.session.add(cliente)
     db.session.commit()
 
-    if status =='aprovado':
+    if status == 'aprovado':
         print(f'Liberar Acesso do email: {cliente.email}')
-    elif status =='recusado':
+    elif status == 'recusado':
         print(f'Pagamento recusado!')
-    elif status =='reembolsado':
+    elif status == 'reembolsado':
         print(f'Retirando o acesso aos cursos!')
 
     return jsonify({'message': 'Cliente adicionado com sucesso'})
+
 
 @cliente_bp.route('/cliente/<id>', methods=['DELETE'])
 def delete_exemplo(id):
