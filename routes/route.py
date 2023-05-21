@@ -53,24 +53,23 @@ def get_cliente_by_id(id):
     data['parcelas'] = cliente.parcelas
     return jsonify(data)
 
+import json
+
 @cliente_bp.route('/cliente', methods=['POST'])
 def add_cliente():
     if request.is_json:
         # Processar dados JSON
-        nome = request.json.get('nome')
-        email = request.json.get('email')
-        status = request.json.get('status')
-        valor = request.json.get('valor')
-        forma_pagamento = request.json.get('forma_pagamento')
-        parcelas = request.json.get('parcelas')
+        data = request.json
     else:
         # Processar dados de texto/bytes
-        nome = request.form.get('nome')
-        email = request.form.get('email')
-        status = request.form.get('status')
-        valor = request.form.get('valor')
-        forma_pagamento = request.form.get('forma_pagamento')
-        parcelas = request.form.get('parcelas')
+        data = json.loads(request.data)
+
+    nome = data.get('nome')
+    email = data.get('email')
+    status = data.get('status')
+    valor = data.get('valor')
+    forma_pagamento = data.get('forma_pagamento')
+    parcelas = data.get('parcelas')
 
     cliente = Cliente(nome, email, status, valor, forma_pagamento, parcelas)
 
@@ -85,6 +84,7 @@ def add_cliente():
         print(f'Retirando o acesso aos cursos!')
 
     return jsonify({'message': 'Cliente adicionado com sucesso'})
+
 
 
 @cliente_bp.route('/cliente/<id>', methods=['DELETE'])
