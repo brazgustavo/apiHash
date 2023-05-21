@@ -55,22 +55,30 @@ def get_cliente_by_id(id):
 
 @cliente_bp.route('/cliente', methods=['POST'])
 def add_cliente():
-    nome = request.json['nome']
-    email = request.json['email']
-    status = request.json['status']
-    valor = request.json['valor']
-    forma_pagamento = request.json['forma_pagamento']
-    parcelas = request.json['parcelas']
+    content_type = request.headers.get('Content-Type')
+    if content_type == 'application/json':
+        nome = request.json['nome']
+        email = request.json['email']
+        status = request.json['status']
+        valor = request.json['valor']
+        forma_pagamento = request.json['forma_pagamento']
+        parcelas = request.json['parcelas']
+    else:
+        data = request.data.decode('utf-8')
+        nome, email, status, valor, forma_pagamento, parcelas = data.split(',')
 
     cliente = Cliente(nome, email, status, valor, forma_pagamento, parcelas)
+
     db.session.add(cliente)
     db.session.commit()
+
     if status =='aprovado':
         print(f'Liberar Acesso do email: {cliente.email}')
     elif status =='recusado':
         print(f'Pagamento recusado!')
     elif status =='reembolsado':
         print(f'Retirando o acesso aos cursos!')
+
     return jsonify({'message': 'Cliente adicionado com sucesso'})
 
 @cliente_bp.route('/cliente/<id>', methods=['DELETE'])
